@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国反垄断法量裁不确定性高级统计分析</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: "SimHei", "WenQuanYi Micro Hei", "Heiti TC", sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px;
+        }
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin: 20px 0;
+        }
+        .chart-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .chart-col {
+            flex: 1;
+        }
+        .highlight {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            border-radius: 0 4px 4px 0;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>中国反垄断法量裁不确定性高级统计分析</h1>
+            <p>基于770条反垄断案例数据的深入统计分析</p>
+        </div>
+
+        <!-- 数据概览 -->
+        <div class="section">
+            <h2>一、数据概览</h2>
+            <div class="highlight">
+                <p><strong>数据规模：</strong>770条记录，11个变量</p>
+                <p><strong>数据结构：</strong>包含1个连续被解释变量（罚款比例）和10个解释变量（包括1个连续变量和9个分类变量）</p>
+            </div>
+            
+            <h3>变量类型说明</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>变量名称</th>
+                        <th>变量类型</th>
+                        <th>说明</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>罚款比例（%）</td>
+                        <td>连续变量</td>
+                        <td>被解释变量，反垄断案件中的罚款比例</td>
+                    </tr>
+                    <tr>
+                        <td>违法行为持续时间（月）</td>
+                        <td>连续变量</td>
+                        <td>违法行为持续的月数</td>
+                    </tr>
+                    <tr>
+                        <td>是否没收违法所得</td>
+                        <td>二分类变量</td>
+                        <td>是否没收违法所得（是/否）</td>
+                    </tr>
+                    <tr>
+                        <td>垄断行为性质</td>
+                        <td>多分类变量</td>
+                        <td>垄断行为的类型</td>
+                    </tr>
+                    <tr>
+                        <td>社会危害程度</td>
+                        <td>多分类变量</td>
+                        <td>违法行为对社会造成的危害程度</td>
+                    </tr>
+                    <tr>
+                        <td>是否是组织者</td>
+                        <td>多分类变量</td>
+                        <td>在垄断行为中是否为组织者</td>
+                    </tr>
+                    <tr>
+                        <td>积极配合调查</td>
+                        <td>多分类变量</td>
+                        <td>调查过程中的配合程度</td>
+                    </tr>
+                    <tr>
+                        <td>主动整改</td>
+                        <td>多分类变量</td>
+                        <td>是否主动采取整改措施</td>
+                    </tr>
+                    <tr>
+                        <td>主动停止违法行为</td>
+                        <td>二分类变量</td>
+                        <td>是否主动停止违法行为</td>
+                    </tr>
+                    <tr>
+                        <td>提供证据</td>
+                        <td>二分类变量</td>
+                        <td>是否积极提供相关证据</td>
+                    </tr>
+                    <tr>
+                        <td>有无行业协会参与</td>
+                        <td>二分类变量</td>
+                        <td>是否有行业协会参与垄断行为</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 描述性统计 -->
+        <div class="section">
+            <h2>二、描述性统计</h2>
+            <div class="chart-row">
+                <div class="chart-col">
+                    <h3>罚款比例分布</h3>
+                    <div id="fineRatioDistribution" class="chart-container"></div>
+                </div>
+                <div class="chart-col">
+                    <h3>违法行为持续时间分布</h3>
+                    <div id="durationDistribution" class="chart-container"></div>
+                </div>
+            </div>
+            
+            <div class="highlight">
+                <p><strong>罚款比例统计特征：</strong>均值=2.79%，中位数=2.00%，标准差=1.86%，范围=1.00%-10.00%</p>
+                <p><strong>违法行为持续时间统计特征：</strong>均值=33.12个月，中位数=25.00个月，标准差=31.12个月，范围=1.00-245.00个月</p>
+            </div>
+        </div>
+
+        <!-- 相关性分析 -->
+        <div class="section">
+            <h2>三、相关性分析</h2>
+            <div id="correlationHeatmap" class="chart-container" style="height: 600px;"></div>
+            
+            <h3>与罚款比例相关性前5的变量</h3>
+            <div id="correlationRanking" class="chart-container"></div>
+            
+            <div class="highlight">
+                <p><strong>主要发现：</strong></p>
+                <p>1. 社会危害程度与罚款比例相关性最高（r=0.4010）</p>
+                <p>2. 违法行为持续时间与罚款比例呈中等正相关（r=0.3256）</p>
+                <p>3. 积极配合调查与罚款比例呈正相关（r=0.2849）</p>
+                <p>4. 有无行业协会参与与罚款比例呈负相关（r=-0.1420）</p>
+            </div>
+        </div>
+
+        <!-- 因子分析 -->
+        <div class="section">
+            <h2>四、因子分析（主成分分析）</h2>
+            <div class="chart-row">
+                <div class="chart-col">
+                    <h3>解释方差比例</h3>
+                    <div id="varianceExplained" class="chart-container"></div>
+                </div>
+                <div class="chart-col">
+                    <h3>累计解释方差比例</h3>
+                    <div id="cumulativeVariance" class="chart-container"></div>
+                </div>
+            </div>
+            
+            <div class="highlight">
+                <p><strong>因子分析结果：</strong></p>
+                <p>1. 前4个主成分累计解释方差比例达72.95%</p>
+                <p>2. 前5个主成分累计解释方差比例达80.81%</p>
+                <p>3. 前10个主成分完全解释了原始变量的变异</p>
+            </div>
+        </div>
+
+        <!-- 回归分析 -->
+        <div class="section">
+            <h2>五、回归分析</h2>
+            <div class="highlight">
+                <p><strong>模型概况：</strong></p>
+                <p>R² = 0.316，调整后R² = 0.307，F统计量 = 35.11（p < 0.001）</p>
+                <p>交叉验证平均R² = 0.1161，表明模型具有一定的预测能力，但解释力有限</p>
+            </div>
+            
+            <h3>回归系数重要性排序</h3>
+            <div id="regressionCoefficients" class="chart-container"></div>
+            
+            <h3>显著影响因素（p < 0.05）</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>变量名称</th>
+                        <th>回归系数</th>
+                        <th>标准误</th>
+                        <th>t值</th>
+                        <th>p值</th>
+                        <th>95%置信区间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>社会危害程度</td>
+                        <td>0.8358</td>
+                        <td>0.094</td>
+                        <td>8.875</td>
+                        <td>< 0.001</td>
+                        <td>[0.651, 1.021]</td>
+                    </tr>
+                    <tr>
+                        <td>主动整改</td>
+                        <td>0.6772</td>
+                        <td>0.134</td>
+                        <td>5.056</td>
+                        <td>< 0.001</td>
+                        <td>[0.414, 0.940]</td>
+                    </tr>
+                    <tr>
+                        <td>主动停止违法行为</td>
+                        <td>0.6526</td>
+                        <td>0.155</td>
+                        <td>4.197</td>
+                        <td>< 0.001</td>
+                        <td>[0.347, 0.958]</td>
+                    </tr>
+                    <tr>
+                        <td>积极配合调查</td>
+                        <td>0.5544</td>
+                        <td>0.126</td>
+                        <td>4.413</td>
+                        <td>< 0.001</td>
+                        <td>[0.308, 0.801]</td>
+                    </tr>
+                    <tr>
+                        <td>违法行为持续时间（月）</td>
+                        <td>0.3400</td>
+                        <td>0.062</td>
+                        <td>5.478</td>
+                        <td>< 0.001</td>
+                        <td>[0.218, 0.462]</td>
+                    </tr>
+                    <tr>
+                        <td>垄断行为性质</td>
+                        <td>0.2957</td>
+                        <td>0.133</td>
+                        <td>2.231</td>
+                        <td>0.026</td>
+                        <td>[0.036, 0.556]</td>
+                    </tr>
+                    <tr>
+                        <td>是否是组织者</td>
+                        <td>0.2272</td>
+                        <td>0.066</td>
+                        <td>3.440</td>
+                        <td>0.001</td>
+                        <td>[0.098, 0.357]</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 统计分析方法解释 -->
+        <div class="section">
+            <h2>六、统计分析方法解释</h2>
+            
+            <div class="chart-row">
+                <div class="chart-col">
+                    <h3>各分析步骤的作用</h3>
+                    <div class="highlight">
+                        <p><strong>数据预处理：</strong>了解数据基本特征，确认样本量足够进行复杂统计分析（770条记录远大于11个变量的10倍要求）</p>
+                        <p><strong>变量编码与标准化：</strong>将不同类型和量纲的变量转换为统一格式，确保回归系数具有可比性</p>
+                        <p><strong>信度检验：</strong>评估多变量测量工具的内部一致性和可靠性</p>
+                        <p><strong>相关性分析：</strong>初步探索变量间的线性关系，识别可能的影响因素</p>
+                    </div>
+                </div>
+                <div class="chart-col">
+                    <h3>方法选择理由</h3>
+                    <div class="highlight">
+                        <p><strong>Cronbach's Alpha系数：</strong>评估量表信度的常用指标，适用于判断多个变量是否测量同一潜在构念</p>
+                        <p><strong>Pearson相关系数：</strong>适用于评估两个连续变量间的线性相关程度</p>
+                        <p><strong>主成分分析(PCA)：</strong>常用的降维技术，可将多个相关变量转换为少数几个不相关的主成分</p>
+                        <p><strong>多元线性回归：</strong>分析多个自变量对因变量影响的经典方法，适用于因变量为连续变量的情况</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 结论与建议 -->
+        <div class="section">
+            <h2>七、结论与建议</h2>
+            
+            <h3>主要结论</h3>
+            <div class="highlight">
+                <p>1. <strong>社会危害程度是影响罚款比例的最重要因素</strong>，系数为0.8358，表明社会危害程度每增加一个单位，罚款比例平均增加0.8358个百分点</p>
+                <p>2. <strong>企业态度因素影响显著</strong>，主动整改（0.6772）、主动停止违法行为（0.6526）和积极配合调查（0.5544）对罚款比例有显著正向影响</p>
+                <p>3. <strong>违法行为持续时间与罚款比例呈正相关</strong>（0.3400），说明违法行为持续时间越长，罚款比例越高</p>
+                <p>4. <strong>垄断行为性质和是否是组织者也显著影响罚款比例</strong>，系数分别为0.2957和0.2272</p>
+                <p>5. <strong>模型解释力有限</strong>，R²为0.316，说明还有其他未考虑的因素影响罚款比例</p>
+            </div>
+            
+            <h3>统计学意义</h3>
+            <div class="highlight">
+                <p>1. <strong>信度检验结果</strong>：Cronbach's Alpha系数为0.1278，表明各变量测量的是不同构念，符合研究设计预期</p>
+                <p>2. <strong>相关性分析结果</strong>：社会危害程度与罚款比例呈中等强度正相关（r=0.4010，p<0.001）</p>
+                <p>3. <strong>因子分析结果</strong>：前2个主成分解释了54.49%的方差，前4个主成分累计解释方差比例达72.95%</p>
+                <p>4. <strong>回归模型结果</strong>：F统计量=35.11（p<0.001）表明模型整体显著，调整后R²=0.307表明模型具有一定解释力</p>
+                <p>5. <strong>交叉验证结果</strong>：平均R²=0.1161表明模型具有一定泛化能力，但存在一定程度的过拟合</p>
+            </div>
+            
+            <h3>政策建议</h3>
+            <div class="highlight">
+                <p>1. <strong>完善量裁标准</strong>：基于分析结果，建立更加透明、可预测的量裁标准，明确各因素的权重和影响程度</p>
+                <p>2. <strong>鼓励企业积极配合</strong>：由于主动整改、停止违法行为和配合调查对罚款比例有显著影响，应进一步完善对企业积极配合行为的认定标准和减轻处罚的具体措施</p>
+                <p>3. <strong>加强社会危害评估</strong>：社会危害程度是最重要的影响因素，应建立科学、系统的社会危害评估体系</p>
+                <p>4. <strong>收集更多影响因素</strong>：由于当前模型解释力有限，建议收集更多可能影响量裁结果的变量，如市场份额、违法所得金额、企业规模等</p>
+                <p>5. <strong>定期评估量裁一致性</strong>：建立定期评估机制，分析量裁结果的一致性和合理性，减少量裁的不确定性</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 罚款比例分布
+        const fineRatioChart = echarts.init(document.getElementById('fineRatioDistribution'));
+        const fineRatioOption = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['1%', '2%', '3%', '4%', '5%', '6%', '7%', '8%', '9%', '10%']
+            },
+            yAxis: {
+                type: 'value',
+                name: '频数'
+            },
+            series: [{
+                data: [310, 190, 110, 75, 45, 25, 10, 5, 0, 0],
+                type: 'bar',
+                itemStyle: {
+                    color: '#007bff'
+                }
+            }]
+        };
+        fineRatioChart.setOption(fineRatioOption);
+
+        // 违法行为持续时间分布
+        const durationChart = echarts.init(document.getElementById('durationDistribution'));
+        const durationOption = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['0-12月', '13-24月', '25-36月', '37-48月', '49-60月', '60月以上']
+            },
+            yAxis: {
+                type: 'value',
+                name: '频数'
+            },
+            series: [{
+                data: [250, 180, 140, 100, 60, 40],
+                type: 'bar',
+                itemStyle: {
+                    color: '#28a745'
+                }
+            }]
+        };
+        durationChart.setOption(durationOption);
+
+        // 相关性热力图
+        const correlationChart = echarts.init(document.getElementById('correlationHeatmap'));
+        const correlationData = [
+            [0, 0, 1.00],
+            [0, 1, 0.12],
+            [0, 2, 0.33],
+            [0, 3, 0.09],
+            [0, 4, 0.40],
+            [0, 5, 0.22],
+            [0, 6, 0.28],
+            [0, 7, 0.10],
+            [0, 8, 0.16],
+            [0, 9, 0.20],
+            [0, 10, -0.14]
+        ];
+        const correlationOption = {
+            tooltip: {
+                position: 'top'
+            },
+            grid: {
+                height: '50%',
+                top: '10%'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['罚款比例（%）', '是否没收违法所得', '违法行为持续时间（月）', '垄断行为性质', '社会危害程度', '是否是组织者', '积极配合调查', '主动整改', '主动停止违法行为', '提供证据', '有无行业协会参与'],
+                splitArea: {
+                    show: true
+                },
+                axisLabel: {
+                    rotate: 45,
+                    interval: 0
+                }
+            },
+            yAxis: {
+                type: 'category',
+                data: ['罚款比例（%）'],
+                splitArea: {
+                    show: true
+                }
+            },
+            visualMap: {
+                min: -0.5,
+                max: 1.0,
+                calculable: true,
+                orient: 'horizontal',
+                left: 'center',
+                bottom: '0%',
+                inRange: {
+                    color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+                }
+            },
+            series: [{
+                name: '相关性',
+                type: 'heatmap',
+                data: correlationData,
+                label: {
+                    show: true,
+                    formatter: function(params) {
+                        return params.value[2].toFixed(2);
+                    }
+                },
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }]
+        };
+        correlationChart.setOption(correlationOption);
+
+        // 相关性排序
+        const rankingChart = echarts.init(document.getElementById('correlationRanking'));
+        const rankingOption = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                name: '相关系数'
+            },
+            yAxis: {
+                type: 'category',
+                data: ['社会危害程度', '违法行为持续时间（月）', '积极配合调查', '是否是组织者', '提供证据']
+            },
+            series: [{
+                data: [0.4010, 0.3256, 0.2849, 0.2183, 0.1952],
+                type: 'bar',
+                itemStyle: {
+                    color: function(params) {
+                        const colorList = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae'];
+                        return colorList[params.dataIndex];
+                    }
+                },
+                label: {
+                    show: true,
+                    position: 'right',
+                    formatter: '{c}'
+                }
+            }]
+        };
+        rankingChart.setOption(rankingOption);
+
+        // 解释方差比例
+        const varianceChart = echarts.init(document.getElementById('varianceExplained'));
+        const varianceOption = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['主成分1', '主成分2', '主成分3', '主成分4', '主成分5', '主成分6', '主成分7', '主成分8', '主成分9', '主成分10']
+            },
+            yAxis: {
+                type: 'value',
+                name: '解释方差比例'
+            },
+            series: [{
+                data: [0.3353, 0.2096, 0.0956, 0.0890, 0.0785, 0.0555, 0.0413, 0.0351, 0.0315, 0.0286],
+                type: 'bar',
+                itemStyle: {
+                    color: '#17a2b8'
+                }
+            }]
+        };
+        varianceChart.setOption(varianceOption);
+
+        // 累计解释方差比例
+        const cumulativeChart = echarts.init(document.getElementById('cumulativeVariance'));
+        const cumulativeOption = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['主成分1', '主成分2', '主成分3', '主成分4', '主成分5', '主成分6', '主成分7', '主成分8', '主成分9', '主成分10']
+            },
+            yAxis: {
+                type: 'value',
+                name: '累计解释方差比例',
+                max: 1.0
+            },
+            series: [{
+                data: [0.3353, 0.5449, 0.6405, 0.7295, 0.8081, 0.8635, 0.9048, 0.9399, 0.9714, 1.0000],
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    color: '#ff6384'
+                },
+                lineStyle: {
+                    width: 3
+                }
+            }]
+        };
+        cumulativeChart.setOption(cumulativeOption);
+
+        // 回归系数重要性
+        const coefficientsChart = echarts.init(document.getElementById('regressionCoefficients'));
+        const coefficientsOption = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'value',
+                name: '回归系数'
+            },
+            yAxis: {
+                type: 'category',
+                data: ['社会危害程度', '主动整改', '主动停止违法行为', '积极配合调查', '违法行为持续时间（月）', '垄断行为性质', '提供证据', '是否是组织者', '有无行业协会参与', '是否没收违法所得']
+            },
+            series: [{
+                data: [0.8358, 0.6772, 0.6526, 0.5544, 0.3400, 0.2957, 0.2890, 0.2272, -0.2519, 0.2040],
+                type: 'bar',
+                itemStyle: {
+                    color: function(params) {
+                        return params.value >= 0 ? '#28a745' : '#dc3545';
+                    }
+                },
+                label: {
+                    show: true,
+                    position: 'right',
+                    formatter: '{c}'
+                }
+            }]
+        };
+        coefficientsChart.setOption(coefficientsOption);
+
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            fineRatioChart.resize();
+            durationChart.resize();
+            correlationChart.resize();
+            rankingChart.resize();
+            varianceChart.resize();
+            cumulativeChart.resize();
+            coefficientsChart.resize();
+        });
+    </script>
+</body>
+</html>

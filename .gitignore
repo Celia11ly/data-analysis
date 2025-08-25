@@ -1,0 +1,42 @@
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器目录和文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 编译输出
+*.pyc
+__pycache__/
+
+# 数据文件
+*.xlsx
+*.csv
+*.json
+
+# 日志文件
+*.log
+
+# 临时文件
+*.tmp
+*.temp
+
+# 环境变量
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 依赖
+node_modules/
+venv/
+.env/
+
+# 打包文件
+dist/
+build/
