@@ -23,7 +23,7 @@
 
 ### 在线查看（GitHub Pages）
 
-[点击此处查看在线报告](https://<your-github-username>.github.io/<your-repository-name>/) 
+[点击此处查看在线报告](https://Celia11ly.github.io/data-analysis/) 
 
 ## 部署指南
 
