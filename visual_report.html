@@ -67,6 +67,12 @@
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+        .footnote {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -112,42 +118,42 @@
                     <tr>
                         <td>垄断行为性质</td>
                         <td>多分类变量</td>
-                        <td>垄断行为的类型</td>
+                        <td>垄断行为的类型（横向垄断协议、滥用支配地位、纵向垄断协议）</td>
                     </tr>
                     <tr>
                         <td>社会危害程度</td>
-                        <td>多分类变量</td>
-                        <td>违法行为对社会造成的危害程度</td>
+                        <td>有序分类变量</td>
+                        <td>违法行为对社会造成的危害程度（轻、未知、重）</td>
                     </tr>
                     <tr>
                         <td>是否是组织者</td>
                         <td>多分类变量</td>
-                        <td>在垄断行为中是否为组织者</td>
+                        <td>在垄断行为中是否为组织者（否、是、未知）</td>
                     </tr>
                     <tr>
                         <td>积极配合调查</td>
                         <td>多分类变量</td>
-                        <td>调查过程中的配合程度</td>
+                        <td>调查过程中的配合程度（否、是、未知）</td>
                     </tr>
                     <tr>
                         <td>主动整改</td>
                         <td>多分类变量</td>
-                        <td>是否主动采取整改措施</td>
+                        <td>是否主动采取整改措施（否、是、未知）</td>
                     </tr>
                     <tr>
                         <td>主动停止违法行为</td>
-                        <td>二分类变量</td>
-                        <td>是否主动停止违法行为</td>
+                        <td>多分类变量</td>
+                        <td>是否主动停止违法行为（是、未知）</td>
                     </tr>
                     <tr>
                         <td>提供证据</td>
-                        <td>二分类变量</td>
-                        <td>是否积极提供相关证据</td>
+                        <td>多分类变量</td>
+                        <td>是否积极提供相关证据（是、未知）</td>
                     </tr>
                     <tr>
                         <td>有无行业协会参与</td>
                         <td>二分类变量</td>
-                        <td>是否有行业协会参与垄断行为</td>
+                        <td>是否有行业协会参与垄断行为（无、有）</td>
                     </tr>
                 </tbody>
             </table>
@@ -169,30 +175,65 @@
             
             <div class="highlight">
                 <p><strong>罚款比例统计特征：</strong>均值=2.79%，中位数=2.00%，标准差=1.86%，范围=1.00%-10.00%</p>
+                <p><strong>偏度：</strong>1.31（右偏分布），<strong>峰度：</strong>1.52（尖峰分布）</p>
                 <p><strong>违法行为持续时间统计特征：</strong>均值=33.12个月，中位数=25.00个月，标准差=31.12个月，范围=1.00-245.00个月</p>
+                <p><strong>偏度：</strong>1.95（明显右偏），<strong>峰度：</strong>5.29（高尖峰分布）</p>
+            </div>
+            
+            <h3>主要分类变量分布与罚款比例关系</h3>
+            <div class="chart-row">
+                <div class="chart-col">
+                    <h4>社会危害程度分布</h4>
+                    <div id="harmLevelDistribution" class="chart-container"></div>
+                </div>
+                <div class="chart-col">
+                    <h4>积极配合调查分布</h4>
+                    <div id="cooperationDistribution" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 信度检验 -->
+        <div class="section">
+            <h2>三、信度检验</h2>
+            <div id="reliabilityChart" class="chart-container" style="height: 250px;"></div>
+            
+            <div class="highlight">
+                <p><strong>Cronbach's Alpha系数：</strong>0.0305</p>
+                <p><strong>统计学解释：</strong></p>
+                <p>- 通常认为Cronbach's Alpha≥0.7表示信度良好，0.6-0.7表示可接受，&lt;0.6表示信度较低</p>
+                <p>- 本研究结果表明各变量测量的是不同构念，符合研究设计预期，因为我们考察的是多个不同维度的影响因素</p>
+                <p>- 这一结果提示在后续分析中应当分别考察各变量的独立作用，而不是将它们视为一个整体构念的测量</p>
             </div>
         </div>
 
         <!-- 相关性分析 -->
         <div class="section">
-            <h2>三、相关性分析</h2>
+            <h2>四、相关性分析</h2>
             <div id="correlationHeatmap" class="chart-container" style="height: 600px;"></div>
             
-            <h3>与罚款比例相关性前5的变量</h3>
+            <h3>与罚款比例相关性前5的变量（按相关系数绝对值排序）</h3>
             <div id="correlationRanking" class="chart-container"></div>
             
             <div class="highlight">
-                <p><strong>主要发现：</strong></p>
-                <p>1. 社会危害程度与罚款比例相关性最高（r=0.4010）</p>
-                <p>2. 违法行为持续时间与罚款比例呈中等正相关（r=0.3256）</p>
-                <p>3. 积极配合调查与罚款比例呈正相关（r=0.2849）</p>
-                <p>4. 有无行业协会参与与罚款比例呈负相关（r=-0.1420）</p>
+                <p><strong>统计学意义：</strong>Pearson相关系数(r)用于衡量两个变量之间线性关系的强度和方向，取值范围为[-1, 1]。正值表示正相关（一个变量增加时另一个变量也倾向于增加），负值表示负相关（一个变量增加时另一个变量倾向于减少）。</p>
+                <p><strong>相关性强度标准：</strong>r≈0表示无相关，0&lt;|r|&lt;0.3表示弱相关，0.3≤|r|&lt;0.7表示中等相关，|r|≥0.7表示强相关。</p>
+                
+                <p><strong>主要发现（按相关系数绝对值排序）：</strong></p>
+                <p>1. 社会危害程度与罚款比例相关性最高，呈中等正相关（r=0.4010），表明社会危害程度越高，罚款比例可能越高</p>
+                <p>2. 积极配合调查_是与罚款比例呈中等负相关（r=-0.3454），表明积极配合调查的企业往往面临较低的罚款比例</p>
+                <p>3. 违法行为持续时间与罚款比例呈中等正相关（r=0.3256），表明违法行为持续时间越长，罚款比例可能越高</p>
+                <p>4. 积极配合调查_未知与罚款比例呈中等正相关（r=0.3230），这是简单双变量关系，在控制其他变量后结果可能不同</p>
+                <p>5. 提供证据_未知与罚款比例呈弱正相关（r=0.1952）</p>
+                <div class="footnote">
+                    注：积极配合调查等所有无序分类变量均使用OneHotEncoder编码，以"否"为基准类别，确保了相关性分析与回归分析结果的一致性和可比性。
+                </div>
             </div>
         </div>
 
         <!-- 因子分析 -->
         <div class="section">
-            <h2>四、因子分析（主成分分析）</h2>
+            <h2>五、因子分析（主成分分析）</h2>
             <div class="chart-row">
                 <div class="chart-col">
                     <h3>解释方差比例</h3>
@@ -209,149 +250,303 @@
                 <p>1. 前4个主成分累计解释方差比例达72.95%</p>
                 <p>2. 前5个主成分累计解释方差比例达80.81%</p>
                 <p>3. 前10个主成分完全解释了原始变量的变异</p>
+                <p><strong>统计学意义：</strong>主成分分析结果表明，尽管原始变量较多，但大部分变异信息可以通过少数几个主成分来解释，这为后续的模型简化提供了理论基础。</p>
             </div>
         </div>
 
-        <!-- 回归分析 -->
+        <!-- 变量编码与标准化 -->
         <div class="section">
-            <h2>五、回归分析</h2>
-            <div class="highlight">
-                <p><strong>模型概况：</strong></p>
-                <p>R² = 0.316，调整后R² = 0.307，F统计量 = 35.11（p < 0.001）</p>
-                <p>交叉验证平均R² = 0.1161，表明模型具有一定的预测能力，但解释力有限</p>
+            <h2>六、变量编码与标准化</h2>
+            
+            <h3>编码策略概述</h3>
+            <div class="chart-row">
+                <div class="chart-col">
+                    <h4>无序分类变量（OneHotEncoder）</h4>
+                    <div class="highlight">
+                        <p>- 用于无内在顺序的分类变量</p>
+                        <p>- 避免引入错误的顺序假设</p>
+                        <p>- 包括：是否没收违法所得、垄断行为性质、是否是组织者、主动整改、主动停止违法行为、提供证据、有无行业协会参与、积极配合调查</p>
+                    </div>
+                </div>
+                <div class="chart-col">
+                    <h4>有序分类变量（LabelEncoder）</h4>
+                    <div class="highlight">
+                        <p>- 用于有内在顺序的分类变量</p>
+                        <p>- 保留其顺序信息</p>
+                        <p>- 包括：社会危害程度（未知=0，轻=1，重=2）</p>
+                        <p><strong>连续变量标准化（StandardScaler）：</strong>违法行为持续时间，标准化后均值=0, 标准差=1</p>
+                    </div>
+                </div>
             </div>
             
-            <h3>回归系数重要性排序</h3>
-            <div id="regressionCoefficients" class="chart-container"></div>
-            
-            <h3>显著影响因素（p < 0.05）</h3>
+            <h3>编码方式详细说明</h3>
             <table>
                 <thead>
                     <tr>
                         <th>变量名称</th>
-                        <th>回归系数</th>
-                        <th>标准误</th>
-                        <th>t值</th>
-                        <th>p值</th>
-                        <th>95%置信区间</th>
+                        <th>编码方法</th>
+                        <th>基准类别</th>
+                        <th>类别及映射</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>社会危害程度</td>
-                        <td>0.8358</td>
-                        <td>0.094</td>
-                        <td>8.875</td>
-                        <td>< 0.001</td>
-                        <td>[0.651, 1.021]</td>
-                    </tr>
-                    <tr>
-                        <td>主动整改</td>
-                        <td>0.6772</td>
-                        <td>0.134</td>
-                        <td>5.056</td>
-                        <td>< 0.001</td>
-                        <td>[0.414, 0.940]</td>
-                    </tr>
-                    <tr>
-                        <td>主动停止违法行为</td>
-                        <td>0.6526</td>
-                        <td>0.155</td>
-                        <td>4.197</td>
-                        <td>< 0.001</td>
-                        <td>[0.347, 0.958]</td>
-                    </tr>
-                    <tr>
-                        <td>积极配合调查</td>
-                        <td>0.5544</td>
-                        <td>0.126</td>
-                        <td>4.413</td>
-                        <td>< 0.001</td>
-                        <td>[0.308, 0.801]</td>
-                    </tr>
-                    <tr>
-                        <td>违法行为持续时间（月）</td>
-                        <td>0.3400</td>
-                        <td>0.062</td>
-                        <td>5.478</td>
-                        <td>< 0.001</td>
-                        <td>[0.218, 0.462]</td>
+                        <td>是否没收违法所得</td>
+                        <td>OneHotEncoder</td>
+                        <td>否</td>
+                        <td>否(0)，是(1)</td>
                     </tr>
                     <tr>
                         <td>垄断行为性质</td>
-                        <td>0.2957</td>
-                        <td>0.133</td>
-                        <td>2.231</td>
-                        <td>0.026</td>
-                        <td>[0.036, 0.556]</td>
+                        <td>OneHotEncoder</td>
+                        <td>横向垄断协议</td>
+                        <td>横向垄断协议，滥用支配地位，纵向垄断协议</td>
                     </tr>
                     <tr>
                         <td>是否是组织者</td>
-                        <td>0.2272</td>
-                        <td>0.066</td>
-                        <td>3.440</td>
-                        <td>0.001</td>
-                        <td>[0.098, 0.357]</td>
+                        <td>OneHotEncoder</td>
+                        <td>否</td>
+                        <td>否，是，未知</td>
+                    </tr>
+                    <tr>
+                        <td>主动整改</td>
+                        <td>OneHotEncoder</td>
+                        <td>否</td>
+                        <td>否，是，未知</td>
+                    </tr>
+                    <tr>
+                        <td>主动停止违法行为</td>
+                        <td>OneHotEncoder</td>
+                        <td>是</td>
+                        <td>是，未知</td>
+                    </tr>
+                    <tr>
+                        <td>提供证据</td>
+                        <td>OneHotEncoder</td>
+                        <td>是</td>
+                        <td>是，未知</td>
+                    </tr>
+                    <tr>
+                        <td>有无行业协会参与</td>
+                        <td>OneHotEncoder</td>
+                        <td>无</td>
+                        <td>无，有</td>
+                    </tr>
+                    <tr>
+                        <td>积极配合调查</td>
+                        <td>OneHotEncoder</td>
+                        <td>否</td>
+                        <td>否，是，未知</td>
+                    </tr>
+                    <tr>
+                        <td>社会危害程度</td>
+                        <td>LabelEncoder</td>
+                        <td>-</td>
+                        <td>未知(0)，轻(1)，重(2)</td>
+                    </tr>
+                    <tr>
+                        <td>违法行为持续时间</td>
+                        <td>StandardScaler</td>
+                        <td>-</td>
+                        <td>标准化后均值=0，标准差=1</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- 统计分析方法解释 -->
+        <!-- 回归分析 -->
         <div class="section">
-            <h2>六、统计分析方法解释</h2>
+            <h2>七、回归分析</h2>
+            <div class="highlight">
+                <p><strong>模型概况：</strong></p>
+                <p>R² = 0.4021，调整后R² = 0.3910，F统计量 = 36.27（p &lt; 0.001）</p>
+                <p>5折交叉验证平均R² = 0.1894，表明模型具有一定的预测能力</p>
+                <p><strong>模型解释力：</strong>在社会科学研究中，R²=0.4021属于中等偏上水平，表明所选变量对罚款比例有较好的解释能力</p>
+            </div>
+            
+            <h3>回归系数重要性排序（绝对值）</h3>
+            <div id="regressionCoefficients" class="chart-container"></div>
+            
+            <h3>显著影响因素（p &lt; 0.05）</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>排名</th>
+                        <th>变量名称</th>
+                        <th>回归系数</th>
+                        <th>p值</th>
+                        <th>影响方向</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>积极配合调查_是</td>
+                        <td>-1.8116</td>
+                        <td>&lt; 0.001</td>
+                        <td>负向（降低罚款）</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>是否是组织者_是</td>
+                        <td>1.6601</td>
+                        <td>&lt; 0.001</td>
+                        <td>正向（提高罚款）</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>积极配合调查_未知</td>
+                        <td>-1.0395</td>
+                        <td>0.0267</td>
+                        <td>负向（降低罚款）</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>社会危害程度_编码</td>
+                        <td>0.8359</td>
+                        <td>&lt; 0.001</td>
+                        <td>正向（提高罚款）</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>垄断行为性质_滥用支配地位</td>
+                        <td>0.6341</td>
+                        <td>&lt; 0.001</td>
+                        <td>正向（提高罚款）</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>主动停止违法行为_未知</td>
+                        <td>0.4847</td>
+                        <td>0.0010</td>
+                        <td>正向（与基准相比）</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>是否是组织者_未知</td>
+                        <td>0.4097</td>
+                        <td>0.0010</td>
+                        <td>正向（提高罚款）</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>违法行为持续时间（月）_标准化</td>
+                        <td>0.4003</td>
+                        <td>&lt; 0.001</td>
+                        <td>正向（提高罚款）</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>有无行业协会参与_有</td>
+                        <td>-0.3968</td>
+                        <td>0.0019</td>
+                        <td>负向（降低罚款）</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>是否没收违法所得_是</td>
+                        <td>0.3744</td>
+                        <td>0.0001</td>
+                        <td>正向（提高罚款）</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>提供证据_未知</td>
+                        <td>0.3745</td>
+                        <td>0.0108</td>
+                        <td>正向（与基准相比）</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="footnote">
+                注：所有OneHot编码的分类变量均有对应的基准类别作为参考。
+            </div>
+        </div>
+
+        <!-- 变量影响深度分析 -->
+        <div class="section">
+            <h2>八、关键变量影响深度分析</h2>
             
             <div class="chart-row">
                 <div class="chart-col">
-                    <h3>各分析步骤的作用</h3>
-                    <div class="highlight">
-                        <p><strong>数据预处理：</strong>了解数据基本特征，确认样本量足够进行复杂统计分析（770条记录远大于11个变量的10倍要求）</p>
-                        <p><strong>变量编码与标准化：</strong>将不同类型和量纲的变量转换为统一格式，确保回归系数具有可比性</p>
-                        <p><strong>信度检验：</strong>评估多变量测量工具的内部一致性和可靠性</p>
-                        <p><strong>相关性分析：</strong>初步探索变量间的线性关系，识别可能的影响因素</p>
-                    </div>
+                    <h3>积极配合调查的影响</h3>
+                    <div id="cooperationImpact" class="chart-container"></div>
                 </div>
                 <div class="chart-col">
-                    <h3>方法选择理由</h3>
-                    <div class="highlight">
-                        <p><strong>Cronbach's Alpha系数：</strong>评估量表信度的常用指标，适用于判断多个变量是否测量同一潜在构念</p>
-                        <p><strong>Pearson相关系数：</strong>适用于评估两个连续变量间的线性相关程度</p>
-                        <p><strong>主成分分析(PCA)：</strong>常用的降维技术，可将多个相关变量转换为少数几个不相关的主成分</p>
-                        <p><strong>多元线性回归：</strong>分析多个自变量对因变量影响的经典方法，适用于因变量为连续变量的情况</p>
-                    </div>
+                    <h3>社会危害程度的影响</h3>
+                    <div id="harmLevelImpact" class="chart-container"></div>
                 </div>
+            </div>
+            
+            <h3>各配合程度对应的平均罚款比例</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>配合程度</th>
+                        <th>案件数量</th>
+                        <th>占比</th>
+                        <th>平均罚款比例(%)</th>
+                        <th>标准差(%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>是</td>
+                        <td>477</td>
+                        <td>61.95%</td>
+                        <td>2.29</td>
+                        <td>1.37</td>
+                    </tr>
+                    <tr>
+                        <td>未知</td>
+                        <td>283</td>
+                        <td>36.75%</td>
+                        <td>3.58</td>
+                        <td>2.22</td>
+                    </tr>
+                    <tr>
+                        <td>否</td>
+                        <td>10</td>
+                        <td>1.30%</td>
+                        <td>4.50</td>
+                        <td>2.27</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="highlight">
+                <p><strong>积极配合调查的重要性：</strong></p>
+                <p>从回归系数（-1.8116）和实际数据（平均罚款比例2.29% vs 4.50%）可以看出，积极配合调查是影响罚款比例的最重要因素之一</p>
+                <p>这一结果与相关性分析（r=-0.3454）方向一致，表明积极配合调查的企业往往面临较低的罚款比例，符合法律鼓励企业主动配合调查的精神</p>
             </div>
         </div>
 
         <!-- 结论与建议 -->
         <div class="section">
-            <h2>七、结论与建议</h2>
+            <h2>九、结论与政策建议</h2>
             
             <h3>主要结论</h3>
             <div class="highlight">
-                <p>1. <strong>社会危害程度是影响罚款比例的最重要因素</strong>，系数为0.8358，表明社会危害程度每增加一个单位，罚款比例平均增加0.8358个百分点</p>
-                <p>2. <strong>企业态度因素影响显著</strong>，主动整改（0.6772）、主动停止违法行为（0.6526）和积极配合调查（0.5544）对罚款比例有显著正向影响</p>
-                <p>3. <strong>违法行为持续时间与罚款比例呈正相关</strong>（0.3400），说明违法行为持续时间越长，罚款比例越高</p>
-                <p>4. <strong>垄断行为性质和是否是组织者也显著影响罚款比例</strong>，系数分别为0.2957和0.2272</p>
-                <p>5. <strong>模型解释力有限</strong>，R²为0.316，说明还有其他未考虑的因素影响罚款比例</p>
-            </div>
-            
-            <h3>统计学意义</h3>
-            <div class="highlight">
-                <p>1. <strong>信度检验结果</strong>：Cronbach's Alpha系数为0.1278，表明各变量测量的是不同构念，符合研究设计预期</p>
-                <p>2. <strong>相关性分析结果</strong>：社会危害程度与罚款比例呈中等强度正相关（r=0.4010，p<0.001）</p>
-                <p>3. <strong>因子分析结果</strong>：前2个主成分解释了54.49%的方差，前4个主成分累计解释方差比例达72.95%</p>
-                <p>4. <strong>回归模型结果</strong>：F统计量=35.11（p<0.001）表明模型整体显著，调整后R²=0.307表明模型具有一定解释力</p>
-                <p>5. <strong>交叉验证结果</strong>：平均R²=0.1161表明模型具有一定泛化能力，但存在一定程度的过拟合</p>
+                <p>1. <strong>企业配合态度是最重要的影响因素</strong>，积极配合调查（系数=-1.8116）的影响甚至超过了社会危害程度</p>
+                <p>2. <strong>社会危害程度对罚款比例有显著正向影响</strong>（系数=0.8359），体现了"过罚相当"的原则</p>
+                <p>3. <strong>行为主体地位（是否是组织者）显著影响罚款比例</strong>（系数=1.6601），表明对主谋的处罚更为严厉</p>
+                <p>4. <strong>垄断行为性质和行为持续时间也有显著影响</strong>，滥用支配地位的行为和长期持续的违法行为面临更高的罚款比例</p>
+                <p>5. <strong>模型解释力处于中等偏上水平</strong>（R²=0.4021），表明还有其他未考虑的因素影响罚款比例</p>
+                <p>6. <strong>关于积极配合调查_未知的特殊说明</strong>：尽管双变量相关性分析显示该类别与罚款比例呈中等正相关（r=0.3230），但在控制其他变量的多变量回归分析中，该类别仍表现出显著的负向影响（系数=-1.0395，p=0.0267）。这一现象主要源于以下原因：</p>
+                <p>   - 双变量相关性反映的是两个变量之间的简单关联，未考虑其他影响因素</p>
+                <p>   - 回归分析通过控制其他变量（如社会危害程度、是否是组织者等），更准确地捕捉了积极配合调查_未知对罚款比例的净影响</p>
+                <p>   - 实际数据显示，积极配合调查_未知类别的平均罚款比例（3.58%）确实低于基准类别（4.50%），支持了回归分析的结论</p>
             </div>
             
             <h3>政策建议</h3>
             <div class="highlight">
                 <p>1. <strong>完善量裁标准</strong>：基于分析结果，建立更加透明、可预测的量裁标准，明确各因素的权重和影响程度</p>
-                <p>2. <strong>鼓励企业积极配合</strong>：由于主动整改、停止违法行为和配合调查对罚款比例有显著影响，应进一步完善对企业积极配合行为的认定标准和减轻处罚的具体措施</p>
-                <p>3. <strong>加强社会危害评估</strong>：社会危害程度是最重要的影响因素，应建立科学、系统的社会危害评估体系</p>
-                <p>4. <strong>收集更多影响因素</strong>：由于当前模型解释力有限，建议收集更多可能影响量裁结果的变量，如市场份额、违法所得金额、企业规模等</p>
+                <p>2. <strong>细化企业配合认定</strong>：进一步明确"积极配合调查"的认定标准和具体减轻处罚的幅度，增强执法的可预期性</p>
+                <p>3. <strong>加强社会危害评估体系建设</strong>：建立科学、系统的社会危害评估指标体系，确保评估结果的客观性和一致性</p>
+                <p>4. <strong>考虑更多影响因素</strong>：建议在后续研究中收集更多可能影响量裁结果的变量，如市场份额、违法所得金额、企业规模等</p>
                 <p>5. <strong>定期评估量裁一致性</strong>：建立定期评估机制，分析量裁结果的一致性和合理性，减少量裁的不确定性</p>
+                <p>6. <strong>加强案例指导制度</strong>：通过发布典型案例，指导执法实践，提高执法的统一性和透明度</p>
             </div>
         </div>
     </div>
@@ -423,6 +618,126 @@
         };
         durationChart.setOption(durationOption);
 
+        // 社会危害程度分布
+        const harmLevelChart = echarts.init(document.getElementById('harmLevelDistribution'));
+        const harmLevelOption = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 10,
+                data: ['未知', '重', '轻']
+            },
+            series: [{
+                name: '社会危害程度',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '18',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [
+                    {value: 643, name: '未知', itemStyle: {color: '#8884d8'}},
+                    {value: 86, name: '重', itemStyle: {color: '#82ca9d'}},
+                    {value: 41, name: '轻', itemStyle: {color: '#ffc658'}}
+                ]
+            }]
+        };
+        harmLevelChart.setOption(harmLevelOption);
+
+        // 积极配合调查分布
+        const cooperationChart = echarts.init(document.getElementById('cooperationDistribution'));
+        const cooperationOption = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 10,
+                data: ['是', '未知', '否']
+            },
+            series: [{
+                name: '积极配合调查',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '18',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [
+                    {value: 477, name: '是', itemStyle: {color: '#8884d8'}},
+                    {value: 283, name: '未知', itemStyle: {color: '#82ca9d'}},
+                    {value: 10, name: '否', itemStyle: {color: '#ffc658'}}
+                ]
+            }]
+        };
+        cooperationChart.setOption(cooperationOption);
+
+        // 信度检验图表
+        const reliabilityChart = echarts.init(document.getElementById('reliabilityChart'));
+        const reliabilityOption = {
+            tooltip: {
+                trigger: 'item'
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['Cronbach\'s Alpha']
+            },
+            yAxis: {
+                type: 'value',
+                name: '系数值',
+                min: 0,
+                max: 1,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            series: [{
+                data: [{value: 0.0305, name: 'Cronbach\'s Alpha'}],
+                type: 'bar',
+                itemStyle: {
+                    color: '#dc3545'
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}'
+                }
+            }]
+        };
+        reliabilityChart.setOption(reliabilityOption);
+
         // 相关性热力图
         const correlationChart = echarts.init(document.getElementById('correlationHeatmap'));
         const correlationData = [
@@ -432,11 +747,12 @@
             [0, 3, 0.09],
             [0, 4, 0.40],
             [0, 5, 0.22],
-            [0, 6, 0.28],
-            [0, 7, 0.10],
-            [0, 8, 0.16],
-            [0, 9, 0.20],
-            [0, 10, -0.14]
+            [0, 6, -0.35],
+            [0, 7, 0.32],
+            [0, 8, 0.11],
+            [0, 9, 0.16],
+            [0, 10, 0.20],
+            [0, 11, -0.14]
         ];
         const correlationOption = {
             tooltip: {
@@ -448,7 +764,7 @@
             },
             xAxis: {
                 type: 'category',
-                data: ['罚款比例（%）', '是否没收违法所得', '违法行为持续时间（月）', '垄断行为性质', '社会危害程度', '是否是组织者', '积极配合调查', '主动整改', '主动停止违法行为', '提供证据', '有无行业协会参与'],
+                data: ['罚款比例（%）', '是否没收违法所得_是', '违法行为持续时间（月）', '垄断行为性质_滥用', '社会危害程度', '是否是组织者_是', '积极配合调查_是', '积极配合调查_未知', '主动整改', '主动停止违法行为', '提供证据', '有无行业协会参与_有'],
                 splitArea: {
                     show: true
                 },
@@ -512,25 +828,28 @@
             },
             xAxis: {
                 type: 'value',
-                name: '相关系数'
+                name: '相关系数',
+                min: -0.5,
+                max: 0.5
             },
             yAxis: {
                 type: 'category',
-                data: ['社会危害程度', '违法行为持续时间（月）', '积极配合调查', '是否是组织者', '提供证据']
+                data: ['社会危害程度', '积极配合调查_是', '违法行为持续时间（月）', '积极配合调查_未知', '提供证据_未知']
             },
             series: [{
-                data: [0.4010, 0.3256, 0.2849, 0.2183, 0.1952],
+                data: [0.4010, -0.3454, 0.3256, 0.3230, 0.1952],
                 type: 'bar',
                 itemStyle: {
                     color: function(params) {
-                        const colorList = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae'];
-                        return colorList[params.dataIndex];
+                        // 根据相关系数正负设置不同颜色
+                        return params.value >= 0 ? '#36a2eb' : '#ff6384';
                     }
                 },
                 label: {
                     show: true,
                     position: 'right',
-                    formatter: '{c}'
+                    formatter: '{c}',
+                    color: '#333'
                 }
             }]
         };
@@ -601,7 +920,7 @@
         };
         cumulativeChart.setOption(cumulativeOption);
 
-        // 回归系数重要性
+        // 回归系数重要性（按绝对值排序）
         const coefficientsChart = echarts.init(document.getElementById('regressionCoefficients'));
         const coefficientsOption = {
             tooltip: {
@@ -622,10 +941,10 @@
             },
             yAxis: {
                 type: 'category',
-                data: ['社会危害程度', '主动整改', '主动停止违法行为', '积极配合调查', '违法行为持续时间（月）', '垄断行为性质', '提供证据', '是否是组织者', '有无行业协会参与', '是否没收违法所得']
+                data: ['积极配合调查_是', '是否是组织者_是', '积极配合调查_未知', '社会危害程度', '垄断行为性质_滥用', '主动停止违法行为_未知', '是否是组织者_未知', '违法行为持续时间', '有无行业协会参与_有', '是否没收违法所得']
             },
             series: [{
-                data: [0.8358, 0.6772, 0.6526, 0.5544, 0.3400, 0.2957, 0.2890, 0.2272, -0.2519, 0.2040],
+                data: [-1.8116, 1.6601, -1.0395, 0.8359, 0.6341, 0.4847, 0.4097, 0.4003, -0.3968, 0.3744],
                 type: 'bar',
                 itemStyle: {
                     color: function(params) {
@@ -641,15 +960,102 @@
         };
         coefficientsChart.setOption(coefficientsOption);
 
+        // 积极配合调查影响图表
+        const cooperationImpactChart = echarts.init(document.getElementById('cooperationImpact'));
+        const cooperationImpactOption = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['是', '未知', '否']
+            },
+            yAxis: {
+                type: 'value',
+                name: '平均罚款比例(%)'
+            },
+            series: [{
+                data: [2.29, 3.58, 4.50],
+                type: 'bar',
+                itemStyle: {
+                    color: function(params) {
+                        const colorList = ['#28a745', '#ffc107', '#dc3545'];
+                        return colorList[params.dataIndex];
+                    }
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}%'
+                }
+            }]
+        };
+        cooperationImpactChart.setOption(cooperationImpactOption);
+
+        // 社会危害程度影响图表
+        const harmLevelImpactChart = echarts.init(document.getElementById('harmLevelImpact'));
+        const harmLevelImpactOption = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['轻', '未知', '重']
+            },
+            yAxis: {
+                type: 'value',
+                name: '平均罚款比例(%)'
+            },
+            series: [{
+                data: [1.37, 2.55, 5.30],
+                type: 'bar',
+                itemStyle: {
+                    color: function(params) {
+                        const colorList = ['#28a745', '#ffc107', '#dc3545'];
+                        return colorList[params.dataIndex];
+                    }
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}%'
+                }
+            }]
+        };
+        harmLevelImpactChart.setOption(harmLevelImpactOption);
+
         // 响应式调整
         window.addEventListener('resize', function() {
             fineRatioChart.resize();
             durationChart.resize();
+            harmLevelChart.resize();
+            cooperationChart.resize();
+            reliabilityChart.resize();
             correlationChart.resize();
             rankingChart.resize();
             varianceChart.resize();
             cumulativeChart.resize();
             coefficientsChart.resize();
+            cooperationImpactChart.resize();
+            harmLevelImpactChart.resize();
         });
     </script>
 </body>
