@@ -252,9 +252,10 @@ with open(report_path, 'a', encoding='utf-8') as f:
     f.write(f"   平均R²得分: {cv_scores.mean():.4f}\n\n")
 
 # 5. 回归系数可视化
+# 使用statsmodels模型的系数，保持与结论部分一致
 coefficients = pd.DataFrame({
     '变量': X.columns,
-    '系数': model_sklearn.coef_
+    '系数': model.params[1:]  # 跳过常数项
 })
 
 coefficients = coefficients.sort_values(by='系数', key=abs, ascending=False)
